@@ -1,629 +1,747 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Учим немецкие слова - A1</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 600px;
-            width: 100%;
-            padding: 30px;
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 28px;
-        }
-
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin: 20px 0;
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: #667eea;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin: 20px 0;
-        }
-
-        .tab {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            background: #e9ecef;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-
-        .tab.active {
-            background: #667eea;
-            color: white;
-        }
-
-        .tab:hover {
-            transform: translateY(-2px);
-        }
-
-        .content {
-            min-height: 400px;
-        }
-
-        .card-container {
-            perspective: 1000px;
-            margin: 20px 0;
-        }
-
-        .card {
-            width: 100%;
-            height: 250px;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.6s;
-            cursor: pointer;
-        }
-
-        .card.flipped {
-            transform: rotateY(180deg);
-        }
-
-        .card-face {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .card-front {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .card-back {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            transform: rotateY(180deg);
-        }
-
-        .german-word {
-            font-size: 36px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .article {
-            font-size: 24px;
-            opacity: 0.9;
-            margin-bottom: 5px;
-        }
-
-        .russian-word {
-            font-size: 28px;
-            margin-top: 10px;
-        }
-
-        .card-hint {
-            font-size: 14px;
-            opacity: 0.8;
-            margin-top: 20px;
-        }
-
-        .controls {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background: #667eea;
-            color: white;
-        }
-
-        .btn-secondary {
-            background: #e9ecef;
-            color: #333;
-        }
-
-        .btn-success {
-            background: #28a745;
-            color: white;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .quiz-option {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            background: white;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s;
-            text-align: left;
-        }
-
-        .quiz-option:hover {
-            border-color: #667eea;
-            background: #f8f9fa;
-        }
-
-        .quiz-option.correct {
-            border-color: #28a745;
-            background: #d4edda;
-        }
-
-        .quiz-option.incorrect {
-            border-color: #dc3545;
-            background: #f8d7da;
-        }
-
-        .quiz-question {
-            font-size: 24px;
-            text-align: center;
-            margin: 20px 0;
-            color: #333;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: #e9ecef;
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 20px 0;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-            transition: width 0.3s;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .reset-btn {
-            background: #dc3545;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            margin-top: 20px;
-        }
-
-        .reset-btn:hover {
-            background: #c82333;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Свой сайт на GitHub: инструкция</title>
+<style>
+  :root{
+    --bg:#f6f7fb; --card:#fff; --ink:#1f2340; --muted:#5b6080;
+    --a:#6c5ce7; --b:#00b894; --c:#fd7e14; --d:#e84393; --line:#e3e5f0;
+    --code:#1e1f2e; --codeink:#e9ecff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;font-size:17px}
+  header{background:linear-gradient(120deg,var(--a),var(--d));color:#fff;padding:28px 20px 70px;text-align:center}
+  header h1{margin:0 0 6px;font-size:clamp(24px,5vw,36px)}
+  header p{margin:0;opacity:.92}
+  .wrap{max-width:900px;margin:-50px auto 40px;padding:0 14px}
+  nav.tabs{display:flex;flex-wrap:wrap;gap:6px;background:var(--card);padding:10px;border-radius:16px;box-shadow:0 6px 20px rgba(40,40,90,.08);position:sticky;top:8px;z-index:5}
+  nav.tabs button{border:0;background:#eef0fb;color:var(--ink);padding:9px 13px;border-radius:10px;font-size:15px;cursor:pointer;font-weight:600}
+  nav.tabs button:hover{background:#e0e3fa}
+  nav.tabs button.active{background:var(--a);color:#fff}
+  nav.tabs button.extra{background:#fff3e6}
+  nav.tabs button.extra.active{background:var(--c);color:#fff}
+  section.panel{display:none;background:var(--card);margin-top:14px;padding:22px 22px 26px;border-radius:16px;box-shadow:0 6px 20px rgba(40,40,90,.08)}
+  section.panel.active{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
+  h2{margin-top:0;font-size:26px}
+  h2 .num{display:inline-block;background:var(--a);color:#fff;border-radius:50%;width:38px;height:38px;text-align:center;line-height:38px;margin-right:8px;font-size:20px}
+  .goal{background:#eefaf6;border-left:5px solid var(--b);padding:10px 14px;border-radius:8px;margin:0 0 16px}
+  .tip{background:#fff6e9;border-left:5px solid var(--c);padding:10px 14px;border-radius:8px;margin:14px 0}
+  .warn{background:#ffeef5;border-left:5px solid var(--d);padding:10px 14px;border-radius:8px;margin:14px 0}
+  details{border:2px solid var(--line);border-radius:12px;margin:10px 0;background:#fff;overflow:hidden}
+  details[open]{border-color:var(--a)}
+  summary{cursor:pointer;padding:12px 16px;font-weight:700;list-style:none;position:relative;padding-right:40px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";position:absolute;right:16px;top:8px;font-size:24px;color:var(--a)}
+  details[open] summary::after{content:"−"}
+  details[open] summary{background:#f3f1ff}
+  .body{padding:4px 18px 14px}
+  ol li,ul li{margin:6px 0}
+  kbd,.btn{display:inline-block;background:#eef0fb;border:1px solid #cfd3ea;border-bottom-width:3px;border-radius:6px;padding:0 7px;font-size:.92em;font-family:inherit;font-weight:600;white-space:nowrap}
+  .btn.green{background:#2da44e;color:#fff;border-color:#1f7a39}
+  code{background:#f0f1f8;padding:1px 6px;border-radius:5px;font-size:.92em}
+  .codebox{position:relative;margin:10px 0}
+  .codebox pre{background:var(--code);color:var(--codeink);padding:16px;border-radius:10px;overflow-x:auto;font-size:14px;line-height:1.5;margin:0}
+  .copy{position:absolute;top:8px;right:8px;border:0;background:var(--b);color:#fff;border-radius:7px;padding:5px 11px;cursor:pointer;font-weight:600;font-size:13px}
+  .nextprev{display:flex;justify-content:space-between;gap:10px;margin-top:22px}
+  .nextprev button{border:0;background:var(--a);color:#fff;padding:10px 16px;border-radius:10px;font-weight:700;cursor:pointer;font-size:15px}
+  .nextprev button.back{background:#eef0fb;color:var(--ink)}
+  .map{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0}
+  .map div{background:#f3f1ff;border-radius:12px;padding:12px;text-align:center;font-weight:600;cursor:pointer}
+  .map div span{display:block;font-size:28px}
+  .map div:hover{background:#e6e2ff}
+  table{border-collapse:collapse;width:100%;margin:10px 0;font-size:15px}
+  td,th{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}
+  th{background:#f3f1ff}
+  .gl-search{width:100%;padding:11px 14px;border:2px solid var(--line);border-radius:10px;font-size:16px;margin-bottom:8px}
+  footer{text-align:center;color:var(--muted);font-size:14px;margin-bottom:30px}
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>🇩🇪 Учим немецкие слова</h1>
-        <p style="text-align: center; color: #666; margin-bottom: 20px;">Уровень A1</p>
 
-        <div class="stats">
-            <div class="stat-item">
-                <div class="stat-value" id="learned-count">0</div>
-                <div class="stat-label">Выучено</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="total-count">30</div>
-                <div class="stat-label">Всего слов</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="mistakes-count">0</div>
-                <div class="stat-label">Ошибок</div>
-            </div>
-        </div>
+<header>
+  <h1>🚀 Свой сайт на GitHub</h1>
+  <p>Пошаговая инструкция: от регистрации до сайта из нескольких страниц. Без программирования, только браузер.</p>
+</header>
 
-        <div class="tabs">
-            <button class="tab active" onclick="switchTab('cards')">Карточки</button>
-            <button class="tab" onclick="switchTab('quiz')">Тест</button>
-        </div>
+<div class="wrap">
+<nav class="tabs" id="tabs">
+  <button data-tab="start" class="active">🏁 Старт</button>
+  <button data-tab="s1">1. Регистрация</button>
+  <button data-tab="s2">2. Репозиторий</button>
+  <button data-tab="s3">3. Первая страница</button>
+  <button data-tab="s4">4. Публикация</button>
+  <button data-tab="s5">5. Много страниц</button>
+  <button data-tab="s6">6. Изменения</button>
+  <button data-tab="help" class="extra">🛠 Не работает?</button>
+  <button data-tab="gloss" class="extra">📖 Глоссарий</button>
+  <button data-tab="safe" class="extra">🛡 Безопасность</button>
+</nav>
 
-        <div class="content">
-            <!-- Режим карточек -->
-            <div id="cards-mode">
-                <div class="card-container">
-                    <div class="card" id="flashcard" onclick="flipCard()">
-                        <div class="card-face card-front">
-                            <div class="article" id="card-article"></div>
-                            <div class="german-word" id="card-german"></div>
-                            <div class="card-hint">Нажмите, чтобы перевернуть</div>
-                        </div>
-                        <div class="card-face card-back">
-                            <div class="russian-word" id="card-russian"></div>
-                            <div class="card-hint">Нажмите, чтобы вернуться</div>
-                        </div>
-                    </div>
-                </div>
+<!-- СТАРТ -->
+<section class="panel active" id="start">
+  <h2>Привет! Что мы сделаем</h2>
+  <p>Ты создашь настоящий сайт о своих поездках, который откроется у любого человека в интернете по адресу вида <code>https://твоеимя.github.io</code>. Это бесплатно.</p>
+  <div class="goal"><b>Итог:</b> сайт из 4 страниц: <b>Главная</b>, <b>Обо мне</b>, <b>Мои поездки</b>, <b>Контакты</b>, с общим меню и оформлением.</div>
 
-                <div class="progress-bar">
-                    <div class="progress-fill" id="card-progress"></div>
-                </div>
+  <p><b>Что понадобится:</b></p>
+  <ul>
+    <li>Компьютер или ноутбук с браузером (Chrome, Edge, Firefox, Safari).</li>
+    <li>Своя электронная почта, к которой есть доступ.</li>
+    <li>Примерно 1-1,5 часа. Можно делать по частям.</li>
+  </ul>
 
-                <div class="controls">
-                    <button class="btn btn-secondary" onclick="previousCard()">← Назад</button>
-                    <button class="btn btn-success" onclick="markLearned()">✓ Выучено</button>
-                    <button class="btn btn-primary" onclick="nextCard()">Далее →</button>
-                </div>
+  <p><b>Карта пути</b> (нажми на шаг, чтобы перейти):</p>
+  <div class="map">
+    <div data-go="s1"><span>👤</span>1. Регистрация</div>
+    <div data-go="s2"><span>📦</span>2. Репозиторий</div>
+    <div data-go="s3"><span>📝</span>3. Первая страница</div>
+    <div data-go="s4"><span>🌍</span>4. Публикация</div>
+    <div data-go="s5"><span>📚</span>5. Много страниц</div>
+    <div data-go="s6"><span>✏️</span>6. Изменения</div>
+  </div>
 
-                <div style="text-align: center; margin-top: 15px; color: #666;">
-                    <span id="card-counter">1 / 30</span>
-                </div>
-            </div>
-
-            <!-- Режим теста -->
-            <div id="quiz-mode" class="hidden">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="quiz-progress"></div>
-                </div>
-
-                <div class="quiz-question" id="quiz-question"></div>
-
-                <div id="quiz-options"></div>
-
-                <div class="controls" style="margin-top: 30px;">
-                    <button class="btn btn-primary" id="quiz-next-btn" onclick="nextQuizQuestion()" style="display: none;">
-                        Следующий вопрос →
-                    </button>
-                </div>
-
-                <div style="text-align: center; margin-top: 15px; color: #666;">
-                    <span id="quiz-counter"></span>
-                </div>
-            </div>
-        </div>
-
-        <button class="reset-btn" onclick="resetProgress()">Сбросить прогресс</button>
+  <details>
+    <summary>Как пользоваться инструкцией</summary>
+    <div class="body">
+      <ul>
+        <li>Иди по вкладкам слева направо.</li>
+        <li>Нажимай на заголовки с <b>+</b>, чтобы раскрыть подробности.</li>
+        <li>Готовый код копируй зеленой кнопкой <span class="btn" style="background:var(--b);color:#fff;border-color:#00876c">Копировать</span>.</li>
+        <li>Названия кнопок на сайте GitHub выделены вот так: <kbd>Create repository</kbd>. GitHub на английском, рядом дан перевод.</li>
+        <li>Если что-то пошло не так, открой вкладку <b>🛠 Не работает?</b></li>
+      </ul>
     </div>
+  </details>
+  <details>
+    <summary>Что такое GitHub простыми словами</summary>
+    <div class="body">
+      <p>GitHub - это большое онлайн-хранилище для файлов проектов. А функция <b>GitHub Pages</b> умеет показывать эти файлы как сайт. Ты кладешь файлы в "папку" на GitHub, а GitHub превращает их в сайт.</p>
+    </div>
+  </details>
+  <div class="warn">Перед началом прочитай вкладку <b>🛡 Безопасность</b> и расскажи родителям, что делаешь сайт. GitHub разрешает регистрацию с 13 лет.</div>
+  <div class="nextprev"><span></span><button data-go="s1">Начать →</button></div>
+</section>
 
-    <script>
-        // База слов A1 уровня
-        const words = [
-            { german: "der Hund", article: "der", russian: "собака" },
-            { german: "die Katze", article: "die", russian: "кошка" },
-            { german: "das Haus", article: "das", russian: "дом" },
-            { german: "das Auto", article: "das", russian: "автомобиль" },
-            { german: "die Schule", article: "die", russian: "школа" },
-            { german: "der Tisch", article: "der", russian: "стол" },
-            { german: "der Stuhl", article: "der", russian: "стул" },
-            { german: "das Buch", article: "das", russian: "книга" },
-            { german: "die Lampe", article: "die", russian: "лампа" },
-            { german: "der Computer", article: "der", russian: "компьютер" },
-            { german: "das Telefon", article: "das", russian: "телефон" },
-            { german: "die Tür", article: "die", russian: "дверь" },
-            { german: "das Fenster", article: "das", russian: "окно" },
-            { german: "der Baum", article: "der", russian: "дерево" },
-            { german: "die Blume", article: "die", russian: "цветок" },
-            { german: "das Wasser", article: "das", russian: "вода" },
-            { german: "das Brot", article: "das", russian: "хлеб" },
-            { german: "die Milch", article: "die", russian: "молоко" },
-            { german: "der Kaffee", article: "der", russian: "кофе" },
-            { german: "der Tee", article: "der", russian: "чай" },
-            { german: "das Kind", article: "das", russian: "ребёнок" },
-            { german: "der Mann", article: "der", russian: "мужчина" },
-            { german: "die Frau", article: "die", russian: "женщина" },
-            { german: "der Freund", article: "der", russian: "друг" },
-            { german: "die Freundin", article: "die", russian: "подруга" },
-            { german: "die Familie", article: "die", russian: "семья" },
-            { german: "der Tag", article: "der", russian: "день" },
-            { german: "die Nacht", article: "die", russian: "ночь" },
-            { german: "das Jahr", article: "das", russian: "год" },
-            { german: "die Zeit", article: "die", russian: "время" }
-        ];
+<!-- ШАГ 1 -->
+<section class="panel" id="s1">
+  <h2><span class="num">1</span>Регистрация</h2>
+  <div class="goal"><b>Цель:</b> создать аккаунт на GitHub.</div>
 
-        // Состояние приложения
-        let state = {
-            currentCardIndex: 0,
-            learnedWords: [],
-            mistakes: [],
-            quizQuestions: [],
-            currentQuizIndex: 0,
-            quizAnswered: false
-        };
+  <details open>
+    <summary>1.1 Открой сайт и начни регистрацию</summary>
+    <div class="body">
+      <ol>
+        <li>Открой в браузере <b>github.com</b>.</li>
+        <li>Нажми <kbd>Sign up</kbd> (Зарегистрироваться) в правом верхнем углу.</li>
+      </ol>
+    </div>
+  </details>
 
-        // Загрузка прогресса из localStorage
-        function loadProgress() {
-            const saved = localStorage.getItem('germanWordsProgress');
-            if (saved) {
-                const data = JSON.parse(saved);
-                state.learnedWords = data.learnedWords || [];
-                state.mistakes = data.mistakes || [];
-            }
-            updateStats();
-        }
+  <details>
+    <summary>1.2 Заполни данные</summary>
+    <div class="body">
+      <ol>
+        <li><b>Email</b> - твоя почта.</li>
+        <li><b>Password</b> - пароль. Минимум 15 символов, или 8 символов с цифрой и маленькой буквой. Лучше длинный: например, фраза из 4 слов.</li>
+        <li><b>Username</b> - имя пользователя. <b>Оно станет адресом сайта!</b> Только латинские буквы, цифры и дефис.</li>
+        <li><b>Country/Region</b> - страна.</li>
+        <li>Нажми <kbd>Continue</kbd> (Продолжить).</li>
+      </ol>
+      <div class="tip"><b>Как выбрать имя:</b> коротко и без настоящей фамилии. Например, <code>max-travel</code> или <code>anna-trips</code>. Сайт будет: <code>https://max-travel.github.io</code>.</div>
+    </div>
+  </details>
 
-        // Сохранение прогресса в localStorage
-        function saveProgress() {
-            localStorage.setItem('germanWordsProgress', JSON.stringify({
-                learnedWords: state.learnedWords,
-                mistakes: state.mistakes
-            }));
-            updateStats();
-        }
+  <details>
+    <summary>1.3 Пройди проверку и подтверди почту</summary>
+    <div class="body">
+      <ol>
+        <li>GitHub покажет головоломку ("докажи, что ты не робот"). Реши ее.</li>
+        <li>На почту придет письмо с кодом. Введи код на сайте.</li>
+        <li>Если письма нет 5 минут, проверь папку <b>Спам</b>.</li>
+        <li>Дальше GitHub может задать вопросы о тебе. Их можно пропустить: <kbd>Skip personalization</kbd>.</li>
+        <li>Если предложат выбрать тариф, выбирай бесплатный <b>Free</b>.</li>
+      </ol>
+    </div>
+  </details>
 
-        // Обновление статистики
-        function updateStats() {
-            document.getElementById('learned-count').textContent = state.learnedWords.length;
-            document.getElementById('mistakes-count').textContent = state.mistakes.length;
-        }
+  <details>
+    <summary>1.4 Включи двухфакторную защиту (2FA)</summary>
+    <div class="body">
+      <p>Это второй замок на аккаунт: кроме пароля нужен код из приложения на телефоне. GitHub может попросить включить ее сам.</p>
+      <ol>
+        <li>Нажми на свою аватарку справа вверху → <kbd>Settings</kbd> (Настройки).</li>
+        <li>Слева: <kbd>Password and authentication</kbd> → <kbd>Enable two-factor authentication</kbd>.</li>
+        <li>Попроси родителей помочь установить приложение-аутентификатор на телефон и отсканировать QR-код.</li>
+        <li><b>Обязательно скачай коды восстановления</b> (Recovery codes) и сохрани их вместе с родителями. Без них можно навсегда потерять доступ, если потеряешь телефон.</li>
+      </ol>
+    </div>
+  </details>
 
-        // Переключение вкладок
-        function switchTab(tab) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
+  <div class="tip">✅ Готово, если ты видишь свою главную страницу GitHub и аватарку в правом верхнем углу.</div>
+  <div class="nextprev"><button class="back" data-go="start">← Назад</button><button data-go="s2">Дальше →</button></div>
+</section>
 
-            if (tab === 'cards') {
-                document.getElementById('cards-mode').classList.remove('hidden');
-                document.getElementById('quiz-mode').classList.add('hidden');
-                showCard();
-            } else {
-                document.getElementById('cards-mode').classList.add('hidden');
-                document.getElementById('quiz-mode').classList.remove('hidden');
-                startQuiz();
-            }
-        }
+<!-- ШАГ 2 -->
+<section class="panel" id="s2">
+  <h2><span class="num">2</span>Создаем репозиторий</h2>
+  <div class="goal"><b>Цель:</b> создать "папку" для сайта. На GitHub она называется <b>репозиторий</b>.</div>
 
-        // Показ карточки
-        function showCard() {
-            const card = words[state.currentCardIndex];
-            document.getElementById('card-article').textContent = card.article;
-            document.getElementById('card-german').textContent = card.german.replace(card.article + ' ', '');
-            document.getElementById('card-russian').textContent = card.russian;
-            document.getElementById('card-counter').textContent = `${state.currentCardIndex + 1} / ${words.length}`;
-            
-            const progress = ((state.currentCardIndex + 1) / words.length) * 100;
-            document.getElementById('card-progress').style.width = progress + '%';
+  <details open>
+    <summary>2.1 Нажми "Новый репозиторий"</summary>
+    <div class="body">
+      <ol>
+        <li>Вверху справа нажми <kbd>+</kbd> → <kbd>New repository</kbd> (Новый репозиторий).</li>
+      </ol>
+    </div>
+  </details>
 
-            // Сброс переворота
-            document.getElementById('flashcard').classList.remove('flipped');
-        }
+  <details>
+    <summary>2.2 Правильно назови репозиторий (это важно!)</summary>
+    <div class="body">
+      <p>В поле <b>Repository name</b> напиши:</p>
+      <div class="codebox"><pre>твоеимя.github.io</pre></div>
+      <p>Вместо <code>твоеимя</code> - точно твой Username из шага 1. Например: <code>max-travel.github.io</code>.</p>
+      <div class="warn">Если имя написано с ошибкой, адрес сайта будет другим и длиннее. Проверь каждую букву.</div>
+    </div>
+  </details>
 
-        // Переворот карточки
-        function flipCard() {
-            document.getElementById('flashcard').classList.toggle('flipped');
-        }
+  <details>
+    <summary>2.3 Остальные настройки</summary>
+    <div class="body">
+      <ol>
+        <li><b>Description</b> (Описание) - можно написать "Мой сайт о поездках".</li>
+        <li>Выбери <b>Public</b> (Публичный). Бесплатный сайт работает только из публичного репозитория. Это значит, что файлы сайта видны всем.</li>
+        <li>Включи галочку или переключатель <b>Add README</b> (Добавить файл описания).</li>
+        <li>Нажми зеленую кнопку <kbd>Create repository</kbd> (Создать репозиторий).</li>
+      </ol>
+    </div>
+  </details>
 
-        // Следующая карточка
-        function nextCard() {
-            state.currentCardIndex = (state.currentCardIndex + 1) % words.length;
-            showCard();
-        }
+  <div class="tip">✅ Готово, если ты видишь страницу репозитория со списком файлов, где есть <code>README.md</code>.</div>
+  <div class="nextprev"><button class="back" data-go="s1">← Назад</button><button data-go="s3">Дальше →</button></div>
+</section>
 
-        // Предыдущая карточка
-        function previousCard() {
-            state.currentCardIndex = (state.currentCardIndex - 1 + words.length) % words.length;
-            showCard();
-        }
+<!-- ШАГ 3 -->
+<section class="panel" id="s3">
+  <h2><span class="num">3</span>Первая страница</h2>
+  <div class="goal"><b>Цель:</b> создать главную страницу <code>index.html</code>. Браузер всегда открывает ее первой.</div>
 
-        // Отметить как выученное
-        function markLearned() {
-            const word = words[state.currentCardIndex];
-            if (!state.learnedWords.includes(word.german)) {
-                state.learnedWords.push(word.german);
-                saveProgress();
-                
-                // Визуальная обратная связь
-                const btn = event.target;
-                btn.textContent = '✓ Выучено!';
-                btn.style.background = '#28a745';
-                setTimeout(() => {
-                    btn.textContent = '✓ Выучено';
-                    nextCard();
-                }, 500);
-            } else {
-                nextCard();
-            }
-        }
+  <details open>
+    <summary>3.1 Создай файл</summary>
+    <div class="body">
+      <ol>
+        <li>На странице репозитория нажми <kbd>Add file</kbd> → <kbd>Create new file</kbd> (Создать новый файл).</li>
+        <li>В поле имени файла напиши <code>index.html</code> (маленькими буквами).</li>
+      </ol>
+    </div>
+  </details>
 
-        // Начало теста
-        function startQuiz() {
-            // Создаём вопросы из всех слов
-            state.quizQuestions = [...words].sort(() => Math.random() - 0.5);
-            state.currentQuizIndex = 0;
-            showQuizQuestion();
-        }
+  <details>
+    <summary>3.2 Вставь код страницы</summary>
+    <div class="body">
+      <p>Скопируй этот код и вставь в большое поле. Текст на русском можно менять как хочешь.</p>
+      <div class="codebox"><button class="copy">Копировать</button><pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="ru"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+  &lt;title&gt;Мой сайт&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Привет! Это мой сайт&lt;/h1&gt;
+  &lt;p&gt;Здесь я рассказываю о своих поездках.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+    </div>
+  </details>
 
-        // Показ вопроса теста
-        function showQuizQuestion() {
-            if (state.currentQuizIndex >= state.quizQuestions.length) {
-                showQuizResults();
-                return;
-            }
+  <details>
+    <summary>3.3 Сохрани файл (сделай коммит)</summary>
+    <div class="body">
+      <ol>
+        <li>Нажми зеленую кнопку <kbd>Commit changes...</kbd> (Сохранить изменения) справа вверху.</li>
+        <li>В окне можно написать, что ты сделал: "Добавил главную страницу".</li>
+        <li>Нажми <kbd>Commit changes</kbd> еще раз.</li>
+      </ol>
+      <div class="tip"><b>Коммит</b> - это сохранение с подписью. GitHub помнит все коммиты, поэтому любую ошибку можно отменить.</div>
+    </div>
+  </details>
 
-            state.quizAnswered = false;
-            const currentWord = state.quizQuestions[state.currentQuizIndex];
-            
-            document.getElementById('quiz-question').textContent = 
-                `Как переводится "${currentWord.german}"?`;
+  <details>
+    <summary>Что значит этот код? (для любопытных)</summary>
+    <div class="body">
+      <p>HTML - это текст с <b>тегами</b> в угловых скобках. Тег говорит браузеру, что это за кусок текста. Большинство тегов парные: открывающий <code>&lt;h1&gt;</code> и закрывающий <code>&lt;/h1&gt;</code>.</p>
+      <table>
+        <tr><th>Тег</th><th>Что делает</th></tr>
+        <tr><td><code>&lt;head&gt;</code></td><td>Служебная часть, ее не видно на странице</td></tr>
+        <tr><td><code>&lt;meta charset="UTF-8"&gt;</code></td><td>Чтобы русские буквы отображались правильно</td></tr>
+        <tr><td><code>&lt;title&gt;</code></td><td>Название во вкладке браузера</td></tr>
+        <tr><td><code>&lt;body&gt;</code></td><td>Все, что видно на странице</td></tr>
+        <tr><td><code>&lt;h1&gt;</code></td><td>Главный заголовок (есть еще h2, h3 - поменьше)</td></tr>
+        <tr><td><code>&lt;p&gt;</code></td><td>Абзац текста</td></tr>
+      </table>
+    </div>
+  </details>
 
-            // Генерация вариантов ответов
-            const options = [currentWord.russian];
-            while (options.length < 4) {
-                const randomWord = words[Math.floor(Math.random() * words.length)].russian;
-                if (!options.includes(randomWord)) {
-                    options.push(randomWord);
-                }
-            }
-            options.sort(() => Math.random() - 0.5);
+  <div class="tip">✅ Готово, если в списке файлов появился <code>index.html</code>.</div>
+  <div class="nextprev"><button class="back" data-go="s2">← Назад</button><button data-go="s4">Дальше →</button></div>
+</section>
 
-            // Отображение вариантов
-            const optionsContainer = document.getElementById('quiz-options');
-            optionsContainer.innerHTML = '';
-            options.forEach(option => {
-                const btn = document.createElement('button');
-                btn.className = 'quiz-option';
-                btn.textContent = option;
-                btn.onclick = () => checkAnswer(option, currentWord.russian, btn);
-                optionsContainer.appendChild(btn);
-            });
+<!-- ШАГ 4 -->
+<section class="panel" id="s4">
+  <h2><span class="num">4</span>Публикация сайта</h2>
+  <div class="goal"><b>Цель:</b> включить GitHub Pages, чтобы сайт открылся в интернете.</div>
 
-            // Прогресс
-            const progress = ((state.currentQuizIndex) / state.quizQuestions.length) * 100;
-            document.getElementById('quiz-progress').style.width = progress + '%';
-            document.getElementById('quiz-counter').textContent = 
-                `Вопрос ${state.currentQuizIndex + 1} из ${state.quizQuestions.length}`;
-            
-            document.getElementById('quiz-next-btn').style.display = 'none';
-        }
+  <details open>
+    <summary>4.1 Включи GitHub Pages</summary>
+    <div class="body">
+      <ol>
+        <li>В репозитории нажми вкладку <kbd>Settings</kbd> (Настройки) вверху. Не путай с настройками аккаунта!</li>
+        <li>В меню слева найди <kbd>Pages</kbd>.</li>
+        <li>В разделе <b>Build and deployment</b> → <b>Source</b> выбери <kbd>Deploy from a branch</kbd>.</li>
+        <li>В <b>Branch</b> выбери <code>main</code> и папку <code>/ (root)</code>.</li>
+        <li>Нажми <kbd>Save</kbd> (Сохранить).</li>
+      </ol>
+      <div class="tip">Для репозитория с именем <code>твоеимя.github.io</code> это часто уже включено. Просто проверь, что настройки такие.</div>
+    </div>
+  </details>
 
-        // Проверка ответа
-        function checkAnswer(selected, correct, btn) {
-            if (state.quizAnswered) return;
-            state.quizAnswered = true;
+  <details>
+    <summary>4.2 Подожди и открой сайт</summary>
+    <div class="body">
+      <ol>
+        <li>Подожди 1-3 минуты. Обнови страницу настроек Pages.</li>
+        <li>Вверху появится надпись <b>Your site is live at...</b> (Твой сайт работает по адресу) и кнопка <kbd>Visit site</kbd>.</li>
+        <li>Открой адрес <code>https://твоеимя.github.io</code>.</li>
+      </ol>
+      <div class="tip">Следить за публикацией можно во вкладке <kbd>Actions</kbd>: желтый кружок - публикуется, зеленая галочка - готово, красный крестик - ошибка.</div>
+    </div>
+  </details>
 
-            const currentWord = state.quizQuestions[state.currentQuizIndex];
-            
-            if (selected === correct) {
-                btn.classList.add('correct');
-                // Убираем из ошибок если было
-                state.mistakes = state.mistakes.filter(w => w !== currentWord.german);
-            } else {
-                btn.classList.add('incorrect');
-                // Подсвечиваем правильный ответ
-                document.querySelectorAll('.quiz-option').forEach(opt => {
-                    if (opt.textContent === correct) {
-                        opt.classList.add('correct');
-                    }
-                });
-                // Добавляем в ошибки
-                if (!state.mistakes.includes(currentWord.german)) {
-                    state.mistakes.push(currentWord.german);
-                }
-            }
+  <div class="tip">🎉 Ура! Ты видишь свою страницу с заголовком "Привет! Это мой сайт". Ссылку можно отправить друзьям.</div>
+  <div class="nextprev"><button class="back" data-go="s3">← Назад</button><button data-go="s5">Дальше →</button></div>
+</section>
 
-            saveProgress();
-            document.getElementById('quiz-next-btn').style.display = 'block';
-        }
+<!-- ШАГ 5 -->
+<section class="panel" id="s5">
+  <h2><span class="num">5</span>Сайт из нескольких страниц</h2>
+  <div class="goal"><b>Цель:</b> 4 страницы с общим меню и одним файлом оформления.</div>
 
-        // Следующий вопрос теста
-        function nextQuizQuestion() {
-            state.currentQuizIndex++;
-            showQuizQuestion();
-        }
+  <p><b>Какие файлы будут в репозитории:</b></p>
+  <table>
+    <tr><th>Файл</th><th>Что это</th></tr>
+    <tr><td><code>index.html</code></td><td>Главная</td></tr>
+    <tr><td><code>about.html</code></td><td>Обо мне</td></tr>
+    <tr><td><code>trips.html</code></td><td>Мои поездки</td></tr>
+    <tr><td><code>contacts.html</code></td><td>Контакты</td></tr>
+    <tr><td><code>style.css</code></td><td>Оформление: цвета, шрифты (одно на все страницы)</td></tr>
+  </table>
+  <div class="tip"><b>Правило имен файлов:</b> только маленькие латинские буквы, без пробелов. Вместо пробела - дефис: <code>my-photo.jpg</code>.</div>
 
-        // Показ результатов теста
-        function showQuizResults() {
-            const correctCount = state.quizQuestions.length - state.mistakes.length;
-            document.getElementById('quiz-question').textContent = 'Тест завершён!';
-            document.getElementById('quiz-options').innerHTML = `
-                <div style="text-align: center; padding: 20px;">
-                    <p style="font-size: 18px; margin-bottom: 15px;">
-                        Правильных ответов: ${state.quizQuestions.length - state.mistakes.length} из ${state.quizQuestions.length}
-                    </p>
-                    <p style="color: #666; margin-bottom: 20px;">
-                        Осталось повторить: ${state.mistakes.length} слов
-                    </p>
-                    ${state.mistakes.length > 0 ? 
-                        `<button class="btn btn-primary" onclick="repeatMistakes()" style="margin-bottom: 10px;">
-                            Повторить ошибки
-                        </button>` : 
-                        `<p style="color: #28a745; font-weight: bold;">Отличная работа! 🎉</p>`
-                    }
-                    <button class="btn btn-secondary" onclick="startQuiz()" style="margin-top: 10px;">
-                        Пройти тест заново
-                    </button>
-                </div>
-            `;
-            document.getElementById('quiz-next-btn').style.display = 'none';
-            document.getElementById('quiz-progress').style.width = '100%';
-        }
+  <details>
+    <summary>5.1 Создай файл оформления style.css</summary>
+    <div class="body">
+      <p><kbd>Add file</kbd> → <kbd>Create new file</kbd>, имя <code>style.css</code>, вставь код и сделай коммит.</p>
+      <div class="codebox"><button class="copy">Копировать</button><pre>body {
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f4f6ff;
+  color: #222;
+}
+nav {
+  background: #6c5ce7;
+  padding: 12px;
+  border-radius: 10px;
+}
+nav a {
+  color: white;
+  margin-right: 15px;
+  text-decoration: none;
+  font-weight: bold;
+}
+h1 { color: #6c5ce7; }
+img { max-width: 100%; border-radius: 10px; }</pre></div>
+      <p>Цвета можно поменять: <code>#6c5ce7</code> - фиолетовый. Попробуй <code>#00b894</code> (зеленый) или <code>#e84393</code> (розовый).</p>
+    </div>
+  </details>
 
-        // Повторение ошибок
-        function repeatMistakes() {
-            if (state.mistakes.length === 0) {
-                alert('Нет ошибок для повторения!');
-                return;
-            }
-            
-            state.quizQuestions = words.filter(w => state.mistakes.includes(w.german));
-            state.currentQuizIndex = 0;
-            showQuizQuestion();
-        }
+  <details>
+    <summary>5.2 Замени код главной страницы (с меню)</summary>
+    <div class="body">
+      <p>Открой <code>index.html</code>, нажми значок карандаша ✏️ (Edit), удали старый код и вставь новый. Коммит.</p>
+      <div class="codebox"><button class="copy">Копировать</button><pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="ru"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+  &lt;title&gt;Главная&lt;/title&gt;
+  &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;nav&gt;
+    &lt;a href="index.html"&gt;Главная&lt;/a&gt;
+    &lt;a href="about.html"&gt;Обо мне&lt;/a&gt;
+    &lt;a href="trips.html"&gt;Мои поездки&lt;/a&gt;
+    &lt;a href="contacts.html"&gt;Контакты&lt;/a&gt;
+  &lt;/nav&gt;
 
-        // Сброс прогресса
-        function resetProgress() {
-            if (confirm('Вы уверены, что хотите сбросить весь прогресс?')) {
-                localStorage.removeItem('germanWordsProgress');
-                state.learnedWords = [];
-                state.mistakes = [];
-                updateStats();
-                showCard();
-            }
-        }
+  &lt;h1&gt;Добро пожаловать!&lt;/h1&gt;
+  &lt;p&gt;Это мой сайт о поездках. Выбери страницу в меню.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+      <p><code>&lt;link ... style.css&gt;</code> подключает оформление, а <code>&lt;a href="..."&gt;</code> - это ссылка на другую страницу.</p>
+    </div>
+  </details>
 
-        // Инициализация
-        loadProgress();
-        showCard();
-    </script>
+  <details>
+    <summary>5.3 Создай остальные страницы</summary>
+    <div class="body">
+      <p>Для каждой новой страницы: <kbd>Add file</kbd> → <kbd>Create new file</kbd> → имя файла → вставить код → коммит. Вот шаблон для <code>about.html</code>:</p>
+      <div class="codebox"><button class="copy">Копировать</button><pre>&lt;!DOCTYPE html&gt;
+&lt;html lang="ru"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+  &lt;title&gt;Обо мне&lt;/title&gt;
+  &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;nav&gt;
+    &lt;a href="index.html"&gt;Главная&lt;/a&gt;
+    &lt;a href="about.html"&gt;Обо мне&lt;/a&gt;
+    &lt;a href="trips.html"&gt;Мои поездки&lt;/a&gt;
+    &lt;a href="contacts.html"&gt;Контакты&lt;/a&gt;
+  &lt;/nav&gt;
+
+  &lt;h1&gt;Обо мне&lt;/h1&gt;
+  &lt;p&gt;Меня зовут Макс. Я люблю путешествовать и узнавать новые места.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+      <p>Пример текста для <code>trips.html</code> (вставь вместо <code>&lt;h1&gt;</code> и <code>&lt;p&gt;</code> в шаблоне):</p>
+      <div class="codebox"><button class="copy">Копировать</button><pre>&lt;h1&gt;Мои поездки&lt;/h1&gt;
+
+&lt;h2&gt;🏔️ Горы, лето&lt;/h2&gt;
+&lt;p&gt;Мы поднялись к озеру. Вода была очень холодной!&lt;/p&gt;
+
+&lt;h2&gt;🏖️ Море, осень&lt;/h2&gt;
+&lt;p&gt;Видел дельфинов и научился плавать с маской.&lt;/p&gt;</pre></div>
+      <p>Для <code>trips.html</code> и <code>contacts.html</code> скопируй этот же шаблон и поменяй только <code>&lt;title&gt;</code>, <code>&lt;h1&gt;</code> и текст. <b>Меню оставь одинаковым</b> на всех страницах.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>5.4 Добавь картинку</summary>
+    <div class="body">
+      <ol>
+        <li>Переименуй картинку на компьютере латиницей без пробелов, например <code>sea-trip.jpg</code>.</li>
+        <li>В репозитории: <kbd>Add file</kbd> → <kbd>Upload files</kbd> (Загрузить файлы).</li>
+        <li>Перетащи картинку в окно и нажми <kbd>Commit changes</kbd>.</li>
+        <li>Вставь в нужную страницу (например, в <code>trips.html</code> после <code>&lt;h1&gt;</code>) строку:</li>
+      </ol>
+      <div class="codebox"><button class="copy">Копировать</button><pre>&lt;img src="sea-trip.jpg" alt="Поездка на море"&gt;</pre></div>
+      <div class="tip"><b>Геометка:</b> фото с телефона могут хранить место съемки. Перед загрузкой отключи геолокацию в настройках камеры или попроси родителей помочь убрать ее из файла.</div>
+      <div class="warn">Загружай только свои фото или картинки, которые разрешено использовать. Не выкладывай фото с лицами людей без их согласия.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>5.5 Полезные теги для украшения страниц</summary>
+    <div class="body">
+      <table>
+        <tr><th>Что нужно</th><th>Код</th></tr>
+        <tr><td>Подзаголовок</td><td><code>&lt;h2&gt;Мои работы&lt;/h2&gt;</code></td></tr>
+        <tr><td>Жирный текст</td><td><code>&lt;b&gt;важно&lt;/b&gt;</code></td></tr>
+        <tr><td>Список</td><td><code>&lt;ul&gt;&lt;li&gt;Пункт 1&lt;/li&gt;&lt;li&gt;Пункт 2&lt;/li&gt;&lt;/ul&gt;</code></td></tr>
+        <tr><td>Ссылка на другой сайт</td><td><code>&lt;a href="https://example.com"&gt;Текст&lt;/a&gt;</code></td></tr>
+        <tr><td>Эмодзи</td><td>Просто вставь в текст: ✈️ 🏔️ 🏖️</td></tr>
+      </table>
+    </div>
+  </details>
+
+  <div class="tip">✅ Готово, если на сайте работает меню и все 4 страницы открываются. После коммита подожди 1-2 минуты.</div>
+  <div class="nextprev"><button class="back" data-go="s4">← Назад</button><button data-go="s6">Дальше →</button></div>
+</section>
+
+<!-- ШАГ 6 -->
+<section class="panel" id="s6">
+  <h2><span class="num">6</span>Как вносить изменения</h2>
+  <div class="goal"><b>Цель:</b> научиться менять сайт, удалять файлы и отменять ошибки.</div>
+
+  <details open>
+    <summary>6.1 Изменить текст на странице</summary>
+    <div class="body">
+      <ol>
+        <li>Открой репозиторий → нажми на нужный файл (например, <code>about.html</code>).</li>
+        <li>Нажми карандаш ✏️ (<kbd>Edit this file</kbd>).</li>
+        <li>Поменяй текст между тегами. Сами теги не трогай.</li>
+        <li><kbd>Commit changes...</kbd> → подпиши, что изменил → <kbd>Commit changes</kbd>.</li>
+        <li>Через 1-2 минуты обнови сайт.</li>
+      </ol>
+      <div class="tip">Можно нажать <kbd>Preview</kbd> (Предпросмотр), чтобы увидеть, что изменилось, до сохранения.</div>
+    </div>
+  </details>
+
+  <details>
+    <summary>6.2 Добавить новую страницу в меню</summary>
+    <div class="body">
+      <ol>
+        <li>Создай новый файл, например <code>dreams.html</code> ("Куда хочу поехать"), по шаблону из шага 5.3.</li>
+        <li>Добавь в меню <b>каждой</b> страницы строку:</li>
+      </ol>
+      <div class="codebox"><button class="copy">Копировать</button><pre>&lt;a href="dreams.html"&gt;Куда хочу поехать&lt;/a&gt;</pre></div>
+    </div>
+  </details>
+
+  <details>
+    <summary>6.3 Удалить или переименовать файл</summary>
+    <div class="body">
+      <ul>
+        <li><b>Удалить:</b> открой файл → кнопка <kbd>...</kbd> справа вверху → <kbd>Delete file</kbd> → коммит.</li>
+        <li><b>Переименовать:</b> открой файл → карандаш ✏️ → измени имя в поле сверху → коммит. Не забудь исправить ссылки в меню!</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>6.4 Отменить ошибку (вернуть старую версию)</summary>
+    <div class="body">
+      <ol>
+        <li>Открой файл, который сломался.</li>
+        <li>Нажми <kbd>History</kbd> (История) справа вверху. Там список всех сохранений.</li>
+        <li>Найди версию, когда все работало, нажми на нее → <kbd>...</kbd> → <kbd>View file</kbd>.</li>
+        <li>Скопируй этот код (значок копирования <kbd>Copy raw file</kbd>).</li>
+        <li>Открой текущий файл, нажми ✏️, замени весь код скопированным, сделай коммит.</li>
+      </ol>
+    </div>
+  </details>
+
+  <details>
+    <summary>6.5 Хорошие привычки</summary>
+    <div class="body">
+      <ul>
+        <li>Меняй понемногу и проверяй сайт после каждого коммита.</li>
+        <li>Пиши понятные подписи к коммитам: "Добавил фото из поездки в горы".</li>
+        <li>Если сайт не обновился, нажми <kbd>Ctrl</kbd>+<kbd>F5</kbd> (на Mac <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>).</li>
+      </ul>
+    </div>
+  </details>
+
+  <div class="tip">🏆 Поздравляем! Теперь у тебя есть свой многостраничный сайт, и ты умеешь его менять.</div>
+  <div class="nextprev"><button class="back" data-go="s5">← Назад</button><button data-go="help">Если что-то не работает →</button></div>
+</section>
+
+<!-- ПРОБЛЕМЫ -->
+<section class="panel" id="help">
+  <h2>🛠 Если что-то не работает</h2>
+
+  <details>
+    <summary>Ошибка 404 "File not found" вместо сайта</summary>
+    <div class="body">
+      <ul>
+        <li>Подожди еще 2-5 минут после коммита.</li>
+        <li>Проверь, что главный файл называется точно <code>index.html</code> (маленькими буквами).</li>
+        <li>Проверь, что имя репозитория точно <code>твоеимя.github.io</code>.</li>
+        <li>Проверь <kbd>Settings</kbd> → <kbd>Pages</kbd>: ветка <code>main</code>, папка <code>/ (root)</code>.</li>
+      </ul>
+    </div>
+  </details>
+  <details>
+    <summary>Изменения не появляются на сайте</summary>
+    <div class="body">
+      <ul>
+        <li>Проверь, что ты нажал <kbd>Commit changes</kbd> (без коммита ничего не сохраняется).</li>
+        <li>Посмотри вкладку <kbd>Actions</kbd>: дождись зеленой галочки.</li>
+        <li>Обнови страницу с очисткой: <kbd>Ctrl</kbd>+<kbd>F5</kbd>.</li>
+      </ul>
+    </div>
+  </details>
+  <details>
+    <summary>Ссылка в меню ведет на ошибку</summary>
+    <div class="body">
+      <p>Имя в <code>href="..."</code> должно совпадать с именем файла <b>до буквы</b>. <code>About.html</code> и <code>about.html</code> - это разные файлы.</p>
+    </div>
+  </details>
+  <details>
+    <summary>Картинка не показывается</summary>
+    <div class="body">
+      <ul>
+        <li>Сравни имя в <code>src="..."</code> с именем файла в репозитории, включая расширение: <code>.jpg</code>, <code>.jpeg</code>, <code>.png</code>.</li>
+        <li>Большие и маленькие буквы важны: <code>Photo.JPG</code> ≠ <code>photo.jpg</code>.</li>
+        <li>Кавычки в коде должны быть прямыми <code>"</code>, а не «елочками».</li>
+      </ul>
+    </div>
+  </details>
+  <details>
+    <summary>Вместо русских букв непонятные символы</summary>
+    <div class="body"><p>Проверь, что в <code>&lt;head&gt;</code> есть строка <code>&lt;meta charset="UTF-8"&gt;</code>.</p></div>
+  </details>
+  <details>
+    <summary>Оформление (цвета) не применилось</summary>
+    <div class="body">
+      <ul>
+        <li>Проверь строку <code>&lt;link rel="stylesheet" href="style.css"&gt;</code> в <code>&lt;head&gt;</code> каждой страницы.</li>
+        <li>Проверь, что файл называется <code>style.css</code>, а не <code>style.css.txt</code>.</li>
+        <li>В CSS у каждой строки должна быть <code>;</code> в конце, а у каждого блока - закрывающая <code>}</code>.</li>
+      </ul>
+    </div>
+  </details>
+  <details>
+    <summary>Страница выглядит "сломанной", текст поехал</summary>
+    <div class="body">
+      <p>Скорее всего, где-то пропал закрывающий тег, например <code>&lt;/p&gt;</code> или <code>&gt;</code>. Сравни свой код с шаблоном или верни прошлую версию (шаг 6.4).</p>
+    </div>
+  </details>
+  <details>
+    <summary>Забыл пароль</summary>
+    <div class="body"><p>На странице входа нажми <kbd>Forgot password?</kbd> и следуй письму на почте. Если включена 2FA, понадобится телефон или коды восстановления.</p></div>
+  </details>
+</section>
+
+<!-- ГЛОССАРИЙ -->
+<section class="panel" id="gloss">
+  <h2>📖 Глоссарий</h2>
+  <input class="gl-search" id="glsearch" type="text" placeholder="🔍 Найти термин...">
+  <div id="gllist">
+    <details><summary>GitHub</summary><div class="body">Сайт-хранилище для файлов проектов. Помнит все версии файлов.</div></details>
+    <details><summary>GitHub Pages</summary><div class="body">Бесплатная функция GitHub, которая превращает файлы из репозитория в работающий сайт.</div></details>
+    <details><summary>Репозиторий (repository, repo)</summary><div class="body">"Папка" проекта на GitHub со всеми файлами и историей их изменений.</div></details>
+    <details><summary>Коммит (commit)</summary><div class="body">Сохранение изменений с подписью. Как "сохранить игру": к любому коммиту можно вернуться.</div></details>
+    <details><summary>Ветка (branch), main</summary><div class="body">Линия версий проекта. Главная ветка называется <code>main</code>. Для нашего сайта нужна только она.</div></details>
+    <details><summary>README</summary><div class="body">Файл с описанием проекта. GitHub показывает его на странице репозитория.</div></details>
+    <details><summary>Username</summary><div class="body">Имя пользователя на GitHub. Входит в адрес сайта.</div></details>
+    <details><summary>Public / Private</summary><div class="body">Публичный репозиторий видят все, приватный - только ты. Бесплатный сайт работает из публичного.</div></details>
+    <details><summary>HTML</summary><div class="body">Язык разметки. Описывает, что есть на странице: заголовки, текст, картинки, ссылки.</div></details>
+    <details><summary>Тег</summary><div class="body">Команда HTML в угловых скобках, например <code>&lt;p&gt;</code>. Обычно у тега есть пара-закрытие: <code>&lt;/p&gt;</code>.</div></details>
+    <details><summary>CSS</summary><div class="body">Язык оформления: цвета, шрифты, отступы. Хранится в файле <code>.css</code>.</div></details>
+    <details><summary>index.html</summary><div class="body">Главная страница сайта. Браузер открывает ее первой.</div></details>
+    <details><summary>Ссылка (href)</summary><div class="body">Переход на другую страницу. В HTML: <code>&lt;a href="адрес"&gt;</code>.</div></details>
+    <details><summary>URL, адрес сайта</summary><div class="body">То, что пишут в адресной строке браузера: <code>https://твоеимя.github.io</code>.</div></details>
+    <details><summary>Деплой (deploy), публикация</summary><div class="body">Процесс, когда GitHub выкладывает новую версию сайта в интернет. Видно во вкладке Actions.</div></details>
+    <details><summary>Actions</summary><div class="body">Вкладка, где видно, как GitHub публикует сайт: идет, готово или ошибка.</div></details>
+    <details><summary>2FA (двухфакторная аутентификация)</summary><div class="body">Вход по паролю + коду с телефона. Защищает аккаунт, даже если пароль узнали.</div></details>
+    <details><summary>Коды восстановления (recovery codes)</summary><div class="body">Запасные коды для входа, если потерян телефон. Хранить в надежном месте.</div></details>
+    <details><summary>404</summary><div class="body">Ошибка "страница не найдена". Обычно из-за неправильного имени файла или ссылки.</div></details>
+    <details><summary>Кэш</summary><div class="body">Память браузера, где хранятся старые версии страниц. Из-за нее изменения иногда видны не сразу. Сбросить: <kbd>Ctrl</kbd>+<kbd>F5</kbd>.</div></details>
+  </div>
+</section>
+
+<!-- БЕЗОПАСНОСТЬ -->
+<section class="panel" id="safe">
+  <h2>🛡 Безопасность</h2>
+  <div class="warn"><b>Главное правило:</b> все, что ты кладешь в публичный репозиторий, может увидеть любой человек в мире. Даже после удаления файл остается в истории коммитов.</div>
+
+  <details open>
+    <summary>❌ Что НЕЛЬЗЯ публиковать на сайте</summary>
+    <div class="body">
+      <ul>
+        <li>Полное имя и фамилию.</li>
+        <li>Домашний адрес, номер школы и класса, город и район.</li>
+        <li>Номер телефона и личную почту.</li>
+        <li>Пароли и коды. Никогда, даже "временно".</li>
+        <li>Фото, по которым можно узнать твой дом, школу или где ты бываешь.</li>
+        <li>Фото других людей без их разрешения.</li>
+        <li>Расписание: когда ты дома один, куда ходишь.</li>
+        <li>Рассказы о поездке <b>во время</b> поездки: так все узнают, что дома никого нет. Публикуй после возвращения.</li>
+        <li>Точные названия отелей, номера билетов, посадочные талоны и фото паспорта.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>✅ Что можно</summary>
+    <div class="body">
+      <ul>
+        <li>Имя без фамилии или псевдоним.</li>
+        <li>Рассказы о поездках после возвращения домой, свои фото природы и достопримечательностей.</li>
+        <li>На странице "Контакты" - не телефон, а, например, просьбу писать через родителей или отдельную почту, созданную вместе с ними.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>🔐 Защита аккаунта</summary>
+    <div class="body">
+      <ul>
+        <li>Длинный пароль, который ты не используешь больше нигде.</li>
+        <li>Включенная 2FA и сохраненные коды восстановления.</li>
+        <li>Не входи в GitHub на чужих компьютерах. Если пришлось, нажми <kbd>Sign out</kbd> (Выйти).</li>
+        <li>Никому не говори пароль и коды, даже "сотрудникам GitHub". Настоящая поддержка их не спрашивает.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>🎣 Мошенничество и странные сообщения</summary>
+    <div class="body">
+      <ul>
+        <li>Письмо "ваш аккаунт заблокируют, срочно войдите по ссылке" - скорее всего обман. Открывай GitHub только сам, набрав <b>github.com</b>.</li>
+        <li>Не скачивай файлы и программы, которые присылают незнакомцы.</li>
+        <li>Если взрослый незнакомец пишет тебе, просит фото, личные данные или "сохранить секрет" - не отвечай и сразу расскажи родителям.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>©️ Чужие картинки и тексты</summary>
+    <div class="body">
+      <p>Нельзя просто так брать картинки и тексты из интернета: у них есть авторы. Используй свои фото или картинки с сайтов, где прямо разрешено бесплатное использование. Указывай автора, если этого просят.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>😨 Если выложил лишнее</summary>
+    <div class="body">
+      <ol>
+        <li>Не паникуй и скажи родителям.</li>
+        <li>Удали эту информацию из файла и сделай коммит.</li>
+        <li>Помни: в истории коммитов она осталась. Если это что-то серьезное (пароль, адрес), самый простой путь - удалить весь репозиторий (<kbd>Settings</kbd> → внизу <kbd>Delete this repository</kbd>) и создать заново без лишнего.</li>
+        <li>Если опубликован пароль - сразу смени его.</li>
+      </ol>
+    </div>
+  </details>
+</section>
+
+<footer>Инструкция для начинающих · GitHub Pages · интерфейс GitHub может немного меняться</footer>
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('#tabs button');
+  const panels = document.querySelectorAll('section.panel');
+  function go(id){
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === id));
+    panels.forEach(p => p.classList.toggle('active', p.id === id));
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  tabs.forEach(t => t.addEventListener('click', () => go(t.dataset.tab)));
+  document.querySelectorAll('[data-go]').forEach(el => el.addEventListener('click', () => go(el.dataset.go)));
+
+  document.querySelectorAll('.copy').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const text = btn.parentElement.querySelector('pre').innerText;
+      const done = () => { btn.textContent = 'Скопировано ✓'; setTimeout(() => btn.textContent = 'Копировать', 1500); };
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(done).catch(() => fallback(text, done));
+      } else { fallback(text, done); }
+    });
+  });
+  function fallback(text, done){
+    const ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch(e) {}
+    ta.remove();
+  }
+
+  document.getElementById('glsearch').addEventListener('input', e => {
+    const q = e.target.value.toLowerCase();
+    document.querySelectorAll('#gllist details').forEach(d => {
+      d.style.display = d.innerText.toLowerCase().includes(q) ? '' : 'none';
+    });
+  });
+</script>
 </body>
 </html>
